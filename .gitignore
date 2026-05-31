@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+src/config.js
+*.log
+.vscode/
+npm-debug.log*
+HSK_vocab_val.csv
+*.bak_*

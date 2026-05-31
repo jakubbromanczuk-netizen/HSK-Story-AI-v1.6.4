@@ -1,0 +1,780 @@
+/* --- CIEMNY I NOWOCZESNY MOTYW --- */
+
+/* Baza */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #121212; /* Ciemna noc */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #e0e0e0; /* Jasny tekst */
+    /* Dodaj transition, aby container płynnie się przesuwał */
+    transition: transform 0.5s ease-in-out;
+}
+
+/* --- GLOBALNY STYL DLA PRZYCISKU SŁOWNIK (LEWY GÓRNY RÓG) --- */
+#toggle-dictionary-btn.global-top-left {
+    position: fixed; /* Pozycjonowanie względem widoku */
+    top: 20px;
+    left: 20px;
+    z-index: 1002; /* Wyższy niż sidebar i overlay */
+    background-color: #8b5cf6; /* Akcent fioletu */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.1s;
+    font-weight: 600;
+}
+
+#toggle-dictionary-btn.global-top-left:hover {
+    background-color: #7c4dff;
+    transform: translateY(-1px);
+}
+/* ---------------------------------------------------- */
+
+/* --- GLOBALNY STYL DLA PRZYCISKU USTAWIEŃ (LEWY DOLNY RÓG) --- */
+#settings-btn.global-bottom-left {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1002;
+    background-color: #000; /* changed to black */
+    color: #888; /* icon color gray */
+    border: none;
+    padding: 10px; /* square-ish for icon */
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.15s, transform 0.1s;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#settings-btn.global-bottom-left:hover {
+    background-color: #111; /* subtle hover */
+    transform: translateY(-1px);
+}
+/* ---------------------------------------------------- */
+
+/* --- NOWY STYL DLA PRZYCISKU TŁUMACZENIA (PRAWY GÓRNY RÓG KONTENERA) --- */
+#toggle-translation-btn.header-top-right {
+    position: absolute; /* Pozycjonowanie względem nagłówka, który jest `position: relative` */
+    top: 0;
+    right: 0;
+    background: none; /* Przezroczyste tło */
+    border: none;
+    color: #e0e0e0; /* Kolor ikony */
+    font-size: 1.5em; /* Większa ikona */
+    cursor: pointer;
+    transition: color 0.3s;
+    z-index: 10; /* Aby przycisk był na wierzchu */
+    padding: 10px; /* Dodatkowy padding dla łatwiejszego klikania */
+}
+
+#toggle-translation-btn.header-top-right:hover {
+    color: #8b5cf6; /* Kolor akcentu przy najechaniu */
+}
+
+/* Upewnij się, że header jest position: relative */
+header {
+    position: relative; /* Kluczowe dla pozycjonowania #toggle-translation-btn */
+    color: #e0e0e0;
+    margin-top: 0;
+    font-weight: 700;
+}
+
+/* --- KLASY DO PRZESUWANIA GŁÓWNEGO KONTENERA --- */
+body.sidebar-translation-open .container {
+    transform: translateX(-175px); /* Przesuwa container o połowę szerokości sidebara */
+}
+body.sidebar-dictionary-open .container {
+    transform: translateX(175px); /* Przesuwa container o połowę szerokości sidebara */
+}
+/* ------------------------------------------------ */
+
+
+.container {
+    background-color: #1f1f1f; /* Głęboki grafit */
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Silniejszy cień dla kontrastu */
+    padding: 35px;
+    width: 90%;
+    max-width: 650px;
+    text-align: center;
+    transition: transform 0.5s ease-in-out; /* Płynne przejście przy przesuwaniu */
+    z-index: 1; /* Upewnij się, że kontener jest nad tłem, ale pod sidebarami */
+}
+
+/* Reszta CSS bez zmian, aż do sekcji sidebarów */
+
+header p {
+    color: #b0b0b0; 
+    margin-bottom: 25px;
+    font-size: 0.9em;
+}
+
+.output-box {
+    background-color: #2d2d2d; 
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    border: 1px solid #3a3a3a;
+}
+
+.chinese-text {
+    font-size: 26px;
+    line-height: 1.8; 
+    font-weight: bold;
+    color: #f0f0f0; 
+    white-space: pre-wrap;
+}
+
+.chinese-text .hanzi-word {
+    cursor: help; 
+    display: inline-block;
+    padding: 0; 
+    margin: 0;
+    transition: background-color 0.2s, color 0.2s; 
+}
+
+.chinese-text .hanzi-word.highlighted {
+    background-color: rgba(139, 92, 246, 0.35); 
+    padding: 2px 4px; 
+    margin: -2px -4px; 
+    border-radius: 4px;
+    color: #fff;
+    box-shadow: 0 0 5px rgba(139, 92, 246, 0.5); 
+}
+
+#pinyin-tooltip {
+    position: absolute; 
+    display: none; 
+    padding: 8px 12px; 
+    background-color: #8b5cf6; 
+    color: #fff;
+    border-radius: 6px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.9); 
+    pointer-events: none; 
+    z-index: 9999; 
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#selection-tooltip {
+    position: absolute;
+    display: none;
+    padding: 8px 12px;
+    background-color: #2a62ff; /* Niebieski kolor dla odróżnienia */
+    color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+#selection-tooltip:hover {
+    background-color: #1a51e0;
+}
+
+.pinyin-text {
+    font-size: 18px;
+    color: #b0b0b0; 
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #3a3a3a;
+    white-space: pre-wrap;
+    transition: filter 0.3s ease;
+}
+
+.pinyin-text.blurred {
+    filter: blur(4px);
+    color: transparent; 
+    pointer-events: none;
+}
+
+.input-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    gap: 10px;
+}
+
+#length-input {
+    width: 60px;
+    padding: 10px;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #3a3a3a; 
+    color: #f0f0f0;
+    font-size: 16px;
+    margin-right: 0;
+}
+
+#toggle-pinyin-btn {
+    background-color: #444; 
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.1s;
+    flex-shrink: 0; 
+}
+
+#toggle-pinyin-btn.active {
+    background-color: #8b5cf6; 
+}
+
+#toggle-pinyin-btn:hover {
+    background-color: #7c4dff;
+    transform: translateY(-1px);
+}
+
+#generate-button {
+    background-color: #8b5cf6; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    flex-grow: 1;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+#generate-button:hover {
+    background-color: #7c4dff;
+    transform: translateY(-1px);
+}
+
+#generate-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Style dla nowego przycisku "Wklej Hanzi" */
+#paste-hanzi-button {
+    background-color: #534CAF; /* Kolor niebieskawy */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.1s;
+    white-space: nowrap;
+    flex-shrink: 0; 
+}
+
+#paste-hanzi-button:hover {
+    background-color: #47409c;
+    transform: translateY(-1px);
+}
+
+#paste-hanzi-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.error-message {
+    color: #ff7878; 
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+footer {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #3a3a3a;
+    font-size: 0.8em;
+    color: #777;
+}
+
+/* ======================================= */
+/* --- STYL BOCZNYCH PANELI (SŁOWNIK I TŁUMACZENIE) --- */
+/* ======================================= */
+
+.sidebar {
+    height: 100%; 
+    width: 0; /* Domyślnie ukryty */
+    position: fixed; 
+    z-index: 1001; 
+    top: 0;
+    background-color: #282828; 
+    overflow-x: hidden; 
+    transition: 0.5s; /* Płynne otwieranie/zamykanie */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Cień */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Panel Słownika (z lewej) */
+.sidebar-left {
+    left: 0;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5); /* Cień na prawo */
+}
+/* Panel Tłumaczenia (z prawej) */
+.sidebar-right {
+    right: 0;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5); /* Cień na lewo */
+}
+
+
+.sidebar.open {
+    width: 350px; /* Szerokość otwartego panelu */
+    padding: 20px;
+}
+
+/* Ustawienie mniejszej szerokości dla małych ekranów */
+@media screen and (max-width: 768px) {
+    .sidebar.open {
+        width: 100%;
+    }
+    /* Dla małych ekranów nie przesuwamy body, tylko sidebary pokrywają całość */
+    body.sidebar-translation-open .container,
+    body.sidebar-dictionary-open .container {
+        transform: translateX(0); 
+    }
+}
+
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #444;
+    flex-shrink: 0; 
+}
+
+.sidebar-header h2 {
+    color: #e0e0e0;
+    margin: 0;
+    font-size: 1.5em;
+}
+
+#quizlet-export-btn {
+    background: none;
+    border: 1px solid #8b5cf6;
+    color: #8b5cf6;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+    display: block;
+    width: 80%;
+    margin: 15px auto 0; /* Margines górny i centrowanie */
+}
+
+#quizlet-export-btn:hover {
+    background-color: #8b5cf6;
+    color: #fff;
+}
+
+#close-dictionary-btn, #close-translation-btn {
+    background: none;
+    border: none;
+    color: #e0e0e0;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+#close-dictionary-btn:hover, #close-translation-btn:hover {
+    color: #8b5cf6;
+}
+
+.sidebar-info {
+    font-size: 0.9em;
+    color: #ccc;
+    padding: 10px 0 15px 0;
+    flex-shrink: 0;
+}
+
+.dictionary-list-content, .translation-output-content {
+    overflow-y: auto; 
+    flex-grow: 1; 
+    line-height: 1.6;
+}
+
+.translation-output-content {
+    color: #f0f0f0;
+    font-size: 1.1em;
+    text-align: left;
+}
+
+
+/* Style elementów słownika */
+.dictionary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed #3a3a3a;
+}
+
+.dictionary-item:last-child {
+    border-bottom: none;
+}
+
+.dict-char {
+    font-size: 24px;
+    font-weight: bold;
+    color: #8b5cf6; 
+    flex-basis: 15%;
+    text-align: left;
+}
+
+.dict-pinyin {
+    font-style: italic;
+    color: #f0f0f0;
+    flex-basis: 35%;
+    text-align: left;
+}
+
+.dict-translation {
+    color: #b0b0b0;
+    flex-basis: 50%;
+    text-align: right;
+    font-size: 0.95em;
+    margin-right: 15px; /* Odsuń tekst od gwiazdki */
+}
+
+.favorite-star {
+    color: #444; /* Domyślnie szara */
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.favorite-star:hover {
+    transform: scale(1.2); /* Lekkie powiększenie przy najechaniu */
+}
+
+.favorite-star.favorited {
+    color: #ffd700; /* Złoty kolor dla ulubionych */
+}
+
+/* --- Custom Modal Styles --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.modal {
+    background-color: #2d2d2d;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+/* Stroke modal styles */
+.stroke-modal {
+    background: #121212;
+    padding: 16px 18px;
+    border-radius: 10px;
+    width: auto;
+    max-width: 520px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.7);
+    color: #fff;
+}
+.stroke-writers {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 8px 4px;
+}
+.stroke-writers .writer-box {
+    width: 140px;
+    height: 140px;
+    background: #0b0b0b;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.stroke-writers .writer-box canvas, .stroke-writers .writer-box svg {
+    width: 120px !important;
+    height: 120px !important;
+}
+.stroke-input {
+    min-width: 180px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #071021;
+    color: #fff;
+}
+.stroke-apply-btn {
+    background: #6ea8ff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: #081021;
+    font-weight: 700;
+    cursor: pointer;
+}
+.close-modal-btn {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    background: transparent;
+    border: none;
+    color: #ccc;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.modal h2 {
+    margin-top: 0;
+    color: #f0f0f0;
+}
+
+.modal p {
+    color: #b0b0b0;
+    margin-bottom: 20px;
+}
+
+#paste-text-area {
+    width: 100%;
+    height: 150px;
+    background-color: #3a3a3a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    color: #f0f0f0;
+    padding: 10px;
+    font-size: 16px;
+    resize: vertical;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #f0f0f0;
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    color: #e0e0e0;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-modal-btn:hover {
+    color: #8b5cf6;
+}
+
+.modal-content {
+    text-align: left;
+}
+
+/* --- Style dla suwaków w ustawieniach --- */
+.setting-slider {
+    margin-bottom: 20px;
+}
+
+.setting-slider label {
+    display: block;
+    margin-bottom: 10px;
+    color: #e0e0e0;
+    font-weight: 600;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: #555;
+    outline: none;
+    opacity: 0.8;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #8b5cf6;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    background: #7c4dff;
+}
+
+.slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #8b5cf6;
+    cursor: pointer;
+}
+
+
+.modal-buttons button {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+#submit-pasted-text, #submit-pasted-image {
+    background-color: #8b5cf6;
+    color: white;
+}
+
+#submit-pasted-text:hover, #submit-pasted-image:hover {
+    background-color: #7c4dff;
+}
+
+#cancel-paste-modal {
+    background-color: #444;
+    color: white;
+}
+
+#cancel-paste-modal:hover {
+    background-color: #555;
+}
+
+
+/* --- Tło (Overlay) do przyciemnienia strony --- */
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); 
+    z-index: 1000; 
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* ======================================= */
+/* --- ANIMACJA OCZEKIWANIA (LOADING SPINNER) --- */
+/* ======================================= */
+
+.loading-spinner {
+    /* Ustawienia boxa */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Aby był widoczny w output-box */
+    
+    /* Wygląd wskaźnika */
+    font-size: 24px;
+    color: #8b5cf6; /* Kolor akcentu */
+}
+
+/* Właściwa animacja wirującego elementu */
+.loading-spinner i {
+    animation: spin 1s linear infinite; /* 1 sekunda, liniowo, w nieskończoność */
+    margin-right: 10px;
+}
+
+.loading-spinner i {
+    display: inline-block; /* Ensure transform/rotation works on icon */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/* Tekst towarzyszący spinnerowi */
+.loading-text {
+    color: #b0b0b0;
+    font-size: 1em;
+}
+
+.input-controls button {
+    background-color: #4CAF50; /* A nice green for action */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.1s;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.input-controls button:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+
+/* Specific override for paste button to have a different color */
+#paste-hanzi-button {
+    background-color: #534CAF; /* A blueish color */
+}
+
+#paste-hanzi-button:hover {
+    background-color: #47409c;
+}
