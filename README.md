@@ -6,7 +6,7 @@
 
 ## 你好！
 
-Projekt łączy narzędzia do praktyki słownictwa, gramatyki, słuchu i wymowy w jednym miejscu. System analizuje historię nauki użytkownika i priorytetyzuje słowa oraz konkretne zagadnienia gramatyczne, które nie były powtarzane od dłuższego czasu, dzięki czemu wygenerowany tekst jest zawsze skrojony do poziomu użytkownika.
+Projekt łączy narzędzia do praktyki słownictwa, gramatyki, słuchu i wymowy w jednym miejscu. System analizuje historię nauki i priorytetyzuje słowa oraz konkretne zagadnienia gramatyczne, które nie były powtarzane od dłuższego czasu, dzięki czemu wygenerowany tekst jest zawsze skrojony do poziomu użytkownika, a wygenerowanie kilkudziesięciu tekstów gwarantuje przerobienie 100% wybranego słownictwa w naturalnym kontekście.
 
 <img width="673" height="587" alt="obraz" src="https://github.com/user-attachments/assets/11093f05-48f5-472c-bdea-de439148b6c4" />
 
