@@ -2,7 +2,7 @@
 <video src="https://github.com/user-attachments/assets/128f0caf-4239-4d0b-b58d-12f34995b76b" controls width="100%"></video>
 
 
-## Platforma do nauki języka chińskiego skoncentrowana na przygotowaniu do egzaminów HSK.
+## Platforma do nauki języka chińskiego dedykowana przygotowaniom do egzaminów HSK.
 
 ## 你好！
 
