@@ -7,6 +7,8 @@ Platforma do nauki języka chińskiego skoncentrowana na przygotowaniu do egzami
 你好！
 Projekt łączy narzędzia do praktyki słownictwa, gramatyki, słuchu i wymowy w jednym miejscu. System analizuje historię nauki użytkownika i priorytetyzuje słowa oraz konkretne zagadnienia gramatyczne, które nie były powtarzane od dłuższego czasu, dzięki czemu wygenerowany tekst jest zawsze skrojony do poziomu użytkownika.
 
+<img width="673" height="587" alt="obraz" src="https://github.com/user-attachments/assets/11093f05-48f5-472c-bdea-de439148b6c4" />
+
 ## Funkcje
 
 * automatyczny dobór słownictwa i struktur gramatycznych wymagających powtórki,
@@ -18,6 +20,8 @@ Projekt łączy narzędzia do praktyki słownictwa, gramatyki, słuchu i wymowy 
 * tłumaczenie zdań z uwzględnieniem kontekstu,
 * generowanie zestawów fiszek gotowych do importu na platformę Quizlet,
 * organizacja materiałów zgodnie z poziomami HSK.
+
+<img width="618" height="260" alt="obraz" src="https://github.com/user-attachments/assets/862ad2e8-1e1e-43fd-a4f0-959b0f55e21d" />
 
 ## Cel
 
