@@ -22,6 +22,7 @@ Projekt łączy narzędzia do praktyki słownictwa, gramatyki, słuchu i wymowy 
 * generowanie zestawów fiszek gotowych do importu na platformę Quizlet,
 * organizacja materiałów zgodnie z poziomami HSK.
 
+<img width="630" height="465" alt="obraz" src="https://github.com/user-attachments/assets/d9eef098-60c8-48de-8067-003d310c2128" />
 
 <img width="618" height="260" alt="obraz" src="https://github.com/user-attachments/assets/862ad2e8-1e1e-43fd-a4f0-959b0f55e21d" />
 
